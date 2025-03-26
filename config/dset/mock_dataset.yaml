@@ -1,0 +1,10 @@
+# @package __global__
+
+datasource:
+  max_sample_rate: 44100
+  max_channels: 2
+
+  train: egs/mock_dataset
+  valid: egs/mock_dataset
+  evaluate: egs/mock_dataset
+  generate: egs/mock_dataset

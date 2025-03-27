@@ -57,6 +57,7 @@ class InfoAudioDataset(AudioDataset):
     See `audiocraft.data.audio_dataset.AudioDataset` for initialization arguments.
     """
     def __init__(self, meta: tp.List[AudioMeta], **kwargs):
+        print('InfoAudioDataset __init__')
         super().__init__(clusterify_all_meta(meta), **kwargs)
 
     def __getitem__(self, index: int) -> tp.Union[torch.Tensor, tp.Tuple[torch.Tensor, SegmentWithAttributes]]:

@@ -36,6 +36,7 @@ def resolve_config_dset_paths(cfg):
 
 
 def get_solver(cfg):
+    print('train.py/get_solver')
     from . import solvers
     # Convert batch size to batch size for each GPU
     assert cfg.dataset.batch_size % flashy.distrib.world_size() == 0
@@ -103,6 +104,7 @@ def get_solver_from_sig(sig: str, *args, **kwargs):
 
 
 def init_seed_and_system(cfg):
+    print('train.py/init_seed_and_system')
     import numpy as np
     import torch
     import random
@@ -119,8 +121,10 @@ def init_seed_and_system(cfg):
     os.environ['OMP_NUM_THREADS'] = str(cfg.num_threads)
     logger.debug('Setting num threads to %d', cfg.num_threads)
     set_efficient_attention_backend(cfg.efficient_attention_backend)
+    print(f'-> cfg.efficient_attention_backend: {cfg.efficient_attention_backend}')
     logger.debug('Setting efficient attention backend to %s', cfg.efficient_attention_backend)
     if 'SLURM_JOB_ID' in os.environ:
+        print("'SLURM_JOB_ID' is in os.environ")
         tmpdir = Path('/scratch/slurm_tmpdir/' + os.environ['SLURM_JOB_ID'])
         if tmpdir.exists():
             logger.info("Changing tmpdir to %s", tmpdir)
@@ -129,13 +133,15 @@ def init_seed_and_system(cfg):
 
 @hydra_main(config_path='../config', config_name='config', version_base='1.1')
 def main(cfg):
+    print('train.py/main')
     init_seed_and_system(cfg)
 
     # Setup logging both to XP specific folder, and to stderr.
     log_name = '%s.log.{rank}' % cfg.execute_only if cfg.execute_only else 'solver.log.{rank}'
     flashy.setup_logging(level=str(cfg.logging.level).upper(), log_name=log_name)
+    print(f'cfg.logging.level: {cfg.logging.level}')
     # Initialize distributed training, no need to specify anything when using Dora.
-    flashy.distrib.init()
+    flashy.distrib.init() # -> this falls back to dora distrib init
     solver = get_solver(cfg)
     if cfg.show:
         solver.show()
@@ -160,4 +166,5 @@ if main.dora.shared is not None and not os.access(main.dora.shared, os.R_OK):
     main.dora.shared = None
 
 if __name__ == '__main__':
+    print("train.py/__name__ == '__main__'")
     main()

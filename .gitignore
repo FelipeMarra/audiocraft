@@ -49,9 +49,11 @@ ENV/
 # egs with manifest files
 egs/*
 !egs/example
+!egs/mock_dataset
 # local datasets
 dataset/*
 !dataset/example
+!dataset/mock_dataset
 
 # personal notebooks & scripts
 */local_scripts

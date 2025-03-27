@@ -311,6 +311,7 @@ class AudioDataset:
                  load_wav: bool = True,
                  permutation_on_files: bool = False,
                  ):
+        print('AudioDataset __init__')
         assert len(meta) > 0, "No audio meta provided to AudioDataset. Please check loading of audio meta."
         assert segment_duration is None or segment_duration > 0
         assert segment_duration is None or min_segment_ratio >= 0

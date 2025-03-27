@@ -36,6 +36,7 @@ class StandardSolver(ABC, flashy.BaseSolver):
     associated to each stage as well as the show, build_model and build_dataloaders methods.
     """
     def __init__(self, cfg: omegaconf.DictConfig):
+        print('StandardSolver __init__')
         super().__init__()
         self.logger.info(f"Instantiating solver {self.__class__.__name__} for XP {self.xp.sig}")
         self.logger.info(f"All XP logs are stored in {self.xp.folder}")

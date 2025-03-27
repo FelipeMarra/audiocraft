@@ -37,6 +37,7 @@ class MusicGenSolver(base.StandardSolver):
     DATASET_TYPE: builders.DatasetType = builders.DatasetType.MUSIC
 
     def __init__(self, cfg: omegaconf.DictConfig):
+        print('MusicGenSolver __init__')
         super().__init__(cfg)
         # easier access to sampling parameters
         self.generation_params = {
@@ -170,6 +171,7 @@ class MusicGenSolver(base.StandardSolver):
 
     def build_dataloaders(self) -> None:
         """Instantiate audio dataloaders for each stage."""
+        print('MusicGenSolver build_dataloaders')
         self.dataloaders = builders.get_audio_datasets(self.cfg, dataset_type=self.DATASET_TYPE)
 
     def show(self) -> None:

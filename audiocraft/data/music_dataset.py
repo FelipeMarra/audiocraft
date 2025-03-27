@@ -206,6 +206,7 @@ class MusicDataset(InfoAudioDataset):
                  joint_embed_attributes: tp.List[str] = [],
                  paraphrase_source: tp.Optional[str] = None, paraphrase_p: float = 0,
                  **kwargs):
+        print('MusicDataset __init__')
         kwargs['return_info'] = True  # We require the info for each song of the dataset.
         super().__init__(*args, **kwargs)
         self.info_fields_required = info_fields_required

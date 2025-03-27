@@ -42,6 +42,7 @@ class DatasetType(Enum):
 
 
 def get_solver(cfg: omegaconf.DictConfig) -> StandardSolver:
+    print('builders.py/get_solver')
     """Instantiate solver from config."""
     from .audiogen import AudioGenSolver
     from .compression import CompressionSolver
@@ -50,6 +51,7 @@ def get_solver(cfg: omegaconf.DictConfig) -> StandardSolver:
     from .magnet import MagnetSolver, AudioMagnetSolver
     from .watermark import WatermarkSolver
     from .jasco import JascoSolver
+    print(f'-> cfg.solver: {cfg.solver}')
     klass = {
         'compression': CompressionSolver,
         'musicgen': MusicGenSolver,
@@ -304,6 +306,7 @@ def get_audio_datasets(cfg: omegaconf.DictConfig,
     Returns:
         dict[str, torch.utils.data.DataLoader]: Map of dataloader for each data split.
     """
+    print('builders.py/get_audio_datasets')
     dataloaders: dict = {}
 
     sample_rate = cfg.sample_rate
@@ -353,12 +356,16 @@ def get_audio_datasets(cfg: omegaconf.DictConfig,
         num_workers = kwargs.pop('num_workers')
 
         if dataset_type == DatasetType.MUSIC:
+            print('-> data.music_dataset.MusicDataset')
             dataset = data.music_dataset.MusicDataset.from_meta(path, **kwargs)
         elif dataset_type == DatasetType.SOUND:
+            print('-> data.sound_dataset.SoundDataset')
             dataset = data.sound_dataset.SoundDataset.from_meta(path, **kwargs)
         elif dataset_type == DatasetType.AUDIO:
+            print('-> data.info_audio_dataset.InfoAudioDataset')
             dataset = data.info_audio_dataset.InfoAudioDataset.from_meta(path, return_info=return_info, **kwargs)
         elif dataset_type == DatasetType.JASCO:
+            print('-> data.jasco_dataset.JascoDataset')
             dataset = data.jasco_dataset.JascoDataset.from_meta(path, return_info=return_info, **kwargs)
         else:
             raise ValueError(f"Dataset type is unsupported: {dataset_type}")
